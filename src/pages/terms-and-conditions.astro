@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+---
+
+<BaseLayout
+  title="Terms and Conditions — SnapchatPlanet"
+  description="Terms and conditions for using SnapchatPlanet, the independent guide to Snapchat Planets and the Best Friends Solar System."
+  canonicalPath="/terms-and-conditions"
+>
+  <section class="section">
+    <Breadcrumb
+      items={[
+        { label: "Home", href: "/" },
+        { label: "Terms and Conditions" },
+      ]}
+    />
+
+    <h1>Terms and Conditions</h1>
+
+    <div class="prose page-content">
+      <p><em>Last updated: January 2024</em></p>
+
+      <p>
+        By accessing SnapchatPlanet at snapchatplanet-six.vercel.app, you agree to these Terms and
+        Conditions. If you do not agree, please do not use our website.
+      </p>
+
+      <h2>Use of Content</h2>
+      <p>
+        All content on SnapchatPlanet — including guides about
+        <a href="/snapchat-planets">Snapchat Planets</a>, friendship emojis, and the Best Friends
+        Solar System — is provided for informational and educational purposes only. Content may not
+        be reproduced without permission.
+      </p>
+
+      <h2>No Affiliation</h2>
+      <p>
+        SnapchatPlanet is not affiliated with, endorsed by, or connected to Snap Inc. or Snapchat.
+        Snapchat and related trademarks are property of Snap Inc. Our guides are unofficial and
+        based on publicly available information.
+      </p>
+
+      <h2>Disclaimer of Warranties</h2>
+      <p>
+        Information is provided "as is" without warranties of any kind. We do not guarantee accuracy,
+        completeness, or timeliness of content about Snapchat features, which may change without notice.
+      </p>
+
+      <h2>Limitation of Liability</h2>
+      <p>
+        SnapchatPlanet shall not be liable for any damages arising from use of this website or
+        reliance on its content.
+      </p>
+
+      <p>
+        See also our <a href="/disclaimer">Disclaimer</a> and
+        <a href="/privacy-policy">Privacy Policy</a>. Return to the
+        <a href="/">Snapchat Planets homepage</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 { font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700; margin: 0 0 1.5rem; }
+  .page-content { max-width: 48rem; }
+</style>

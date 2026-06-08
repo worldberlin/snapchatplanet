@@ -1,195 +1,274 @@
 ---
 import { planets } from "../data/planets";
+
+const planetData = planets.map((p) => ({
+  slug: p.slug,
+  name: p.name,
+  rank: p.rank,
+  emoji: p.emoji,
+  hearts: p.hearts,
+  color: p.color,
+  description: p.fullDescription.split(". ").slice(0, 2).join(". ") + ".",
+}));
 ---
 
-<section class="finder" id="planet-finder" aria-labelledby="finder-heading">
-  <div class="finder-glow" aria-hidden="true"></div>
-  <div class="finder-inner">
-    <h2 id="finder-heading" class="finder-title">
-      <span class="finder-icon">🔭</span>
-      Interactive Planet Finder
-    </h2>
-    <p class="finder-subtitle">
-      Select a planet to discover its rank and what it means in your Snapchat solar system.
-    </p>
+<section class="finder-section" id="planet-finder" aria-labelledby="finder-heading">
+  <div class="finder-wrapper">
+    <div class="phone-frame">
+      <div class="phone-notch" aria-hidden="true"></div>
+      <div class="phone-screen">
+        <h2 id="finder-heading" class="finder-title">Find Your Snapchat Planet</h2>
 
-    <div class="finder-controls">
-      <label for="planet-select" class="finder-label">Choose a Planet</label>
-      <div class="select-wrapper">
-        <select id="planet-select" class="planet-select" aria-describedby="planet-result">
-          {
-            planets.map((planet) => (
-              <option value={planet.id}>
-                {planet.emoji} {planet.name} — Rank #{planet.rank}
-              </option>
-            ))
-          }
-        </select>
-        <span class="select-arrow" aria-hidden="true">▼</span>
-      </div>
-    </div>
-
-    <div class="planet-result" id="planet-result" role="region" aria-live="polite">
-      {
-        planets.map((planet, i) => (
-          <div
-            class="result-card"
-            data-planet={planet.id}
-            hidden={i !== 0}
+        <div class="dropdown-container">
+          <button
+            type="button"
+            class="dropdown-trigger"
+            id="dropdown-trigger"
+            aria-haspopup="listbox"
+            aria-expanded="false"
           >
-            <div class="result-orbit" aria-hidden="true">
-              <div
-                class="result-planet"
-                style={`--planet-color: ${planet.color}`}
-              >
-                <span class="planet-emoji">{planet.emoji}</span>
-              </div>
-            </div>
-            <div class="result-info">
-              <div class="result-rank">
-                <span class="rank-badge">Rank #{planet.rank}</span>
-                <span class="rank-planet-name">{planet.name}</span>
-              </div>
-              <h3 class="result-meaning">{planet.meaning}</h3>
-              <p class="result-description">{planet.description}</p>
-            </div>
-          </div>
-        ))
-      }
+            <span id="dropdown-label">Tap to choose your planet...</span>
+            <span class="dropdown-chevron" aria-hidden="true">▲</span>
+          </button>
+
+          <ul
+            class="dropdown-list"
+            id="dropdown-list"
+            role="listbox"
+            hidden
+          >
+            {
+              planets.map((planet) => (
+                <li
+                  role="option"
+                  class="dropdown-option"
+                  data-slug={planet.slug}
+                  tabindex="-1"
+                >
+                  <span class="option-emoji">{planet.emoji}</span>
+                  <span>
+                    {planet.name} — Rank #{planet.rank}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="result-panel" id="result-panel" hidden>
+          <div class="result-emoji" id="result-emoji"></div>
+          <h3 class="result-name" id="result-name"></h3>
+          <span class="result-badge" id="result-badge"></span>
+          <p class="result-desc" id="result-desc"></p>
+          <p class="result-hearts" id="result-hearts"></p>
+          <button type="button" class="btn btn-primary btn-sm" id="share-btn">
+            Share Result
+          </button>
+          <p class="share-toast" id="share-toast" hidden>Copied to clipboard!</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<script>
-  const select = document.getElementById("planet-select") as HTMLSelectElement;
-  const cards = document.querySelectorAll<HTMLElement>(".result-card");
+<script define:vars={{ planetData }}>
+  const trigger = document.getElementById("dropdown-trigger");
+  const list = document.getElementById("dropdown-list");
+  const label = document.getElementById("dropdown-label");
+  const panel = document.getElementById("result-panel");
+  const resultEmoji = document.getElementById("result-emoji");
+  const resultName = document.getElementById("result-name");
+  const resultBadge = document.getElementById("result-badge");
+  const resultDesc = document.getElementById("result-desc");
+  const resultHearts = document.getElementById("result-hearts");
+  const shareBtn = document.getElementById("share-btn");
+  const shareToast = document.getElementById("share-toast");
 
-  select?.addEventListener("change", () => {
-    const selected = select.value;
-    cards.forEach((card) => {
-      card.hidden = card.dataset.planet !== selected;
+  let selected = null;
+
+  function closeDropdown() {
+    list.hidden = true;
+    trigger.setAttribute("aria-expanded", "false");
+  }
+
+  function openDropdown() {
+    list.hidden = false;
+    trigger.setAttribute("aria-expanded", "true");
+  }
+
+  function showResult(planet) {
+    selected = planet;
+    panel.hidden = false;
+    resultEmoji.textContent = planet.emoji;
+    resultName.textContent = planet.name;
+    resultBadge.textContent = `RANK #${planet.rank}`;
+    resultDesc.textContent = planet.description;
+    resultHearts.textContent = planet.hearts;
+    label.textContent = `${planet.emoji} ${planet.name}`;
+  }
+
+  trigger?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (list.hidden) openDropdown();
+    else closeDropdown();
+  });
+
+  list?.querySelectorAll(".dropdown-option").forEach((option) => {
+    option.addEventListener("click", () => {
+      const slug = option.dataset.slug;
+      const planet = planetData.find((p) => p.slug === slug);
+      if (planet) showResult(planet);
+      closeDropdown();
     });
+  });
+
+  document.addEventListener("click", () => closeDropdown());
+
+  shareBtn?.addEventListener("click", async () => {
+    if (!selected) return;
+    const text = `My Snapchat Planet is ${selected.name} (Rank #${selected.rank})! ${selected.hearts} — Find yours at snapchatplanet-six.vercel.app`;
+    try {
+      await navigator.clipboard.writeText(text);
+      shareToast.hidden = false;
+      setTimeout(() => {
+        shareToast.hidden = true;
+      }, 2500);
+    } catch {
+      shareToast.textContent = "Could not copy — try again";
+      shareToast.hidden = false;
+    }
   });
 </script>
 
 <style>
-  .finder {
-    position: relative;
-    padding: 2rem 0;
-  }
-
-  .finder-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(100%, 36rem);
-    height: 20rem;
-    background: radial-gradient(ellipse, rgba(255, 252, 0, 0.06) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .finder-inner {
-    position: relative;
-    max-width: 40rem;
+  .finder-section {
+    padding: 2rem 1.25rem 3rem;
+    max-width: 72rem;
     margin: 0 auto;
-    padding: 2rem 1.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 252, 0, 0.15);
-    border-radius: 1.25rem;
-    backdrop-filter: blur(8px);
+  }
+
+  .finder-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .phone-frame {
+    width: min(100%, 22rem);
+    background: var(--snap-yellow);
+    border-radius: 2.5rem;
+    padding: 0.75rem;
     box-shadow:
-      0 0 40px rgba(255, 252, 0, 0.05),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      0 0 0 4px rgba(255, 252, 0, 0.2),
+      0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .phone-notch {
+    width: 5rem;
+    height: 0.375rem;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 999px;
+    margin: 0.25rem auto 0.75rem;
+  }
+
+  .phone-screen {
+    background: #000;
+    border-radius: 2rem;
+    padding: 1.5rem 1.25rem 2rem;
+    min-height: 24rem;
+    position: relative;
   }
 
   .finder-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-size: 1.375rem;
+    font-size: 1.125rem;
     font-weight: 700;
     color: #fff;
-    margin: 0 0 0.5rem;
     text-align: center;
+    margin: 0 0 1.5rem;
   }
 
-  .finder-icon {
-    font-size: 1.5rem;
-  }
-
-  .finder-subtitle {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 0.9375rem;
-    line-height: 1.5;
-    margin: 0 0 1.75rem;
-  }
-
-  .finder-controls {
-    margin-bottom: 1.75rem;
-  }
-
-  .finder-label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--snap-yellow);
-    margin-bottom: 0.5rem;
-  }
-
-  .select-wrapper {
+  .dropdown-container {
     position: relative;
+    margin-bottom: 1.5rem;
   }
 
-  .planet-select {
+  .dropdown-trigger {
     width: 100%;
-    appearance: none;
-    background: rgba(10, 14, 26, 0.8);
-    border: 1px solid rgba(255, 252, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
     border-radius: 0.75rem;
-    padding: 0.875rem 2.5rem 0.875rem 1rem;
-    color: #fff;
-    font-size: 1rem;
+    padding: 0.875rem 1rem;
+    color: var(--text-muted);
     font-family: inherit;
+    font-size: 0.9375rem;
     cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    text-align: left;
   }
 
-  .planet-select:hover,
-  .planet-select:focus {
-    outline: none;
-    border-color: var(--snap-yellow);
-    box-shadow: 0 0 0 3px rgba(255, 252, 0, 0.15);
-  }
-
-  .select-arrow {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
+  .dropdown-chevron {
     color: var(--snap-yellow);
     font-size: 0.625rem;
-    pointer-events: none;
+    flex-shrink: 0;
   }
 
-  .result-card {
-    display: grid;
-    gap: 1.5rem;
-    animation: fadeIn 0.35s ease;
+  .dropdown-list {
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0.375rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5);
+    max-height: 14rem;
+    overflow-y: auto;
+    z-index: 10;
   }
 
-  .result-card[hidden] {
+  .dropdown-list[hidden] {
     display: none;
   }
 
-  @keyframes fadeIn {
+  .dropdown-option {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 0.875rem;
+    border-radius: 0.5rem;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .dropdown-option:hover {
+    background: #3b82f6;
+    color: #fff;
+  }
+
+  .option-emoji {
+    font-size: 1.25rem;
+  }
+
+  .result-panel {
+    text-align: center;
+    animation: fadeUp 0.35s ease;
+  }
+
+  .result-panel[hidden] {
+    display: none;
+  }
+
+  @keyframes fadeUp {
     from {
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(12px);
     }
     to {
       opacity: 1;
@@ -197,110 +276,47 @@ import { planets } from "../data/planets";
     }
   }
 
-  .result-orbit {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
+  .result-emoji {
+    font-size: 4rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    filter: drop-shadow(0 0 16px rgba(255, 252, 0, 0.3));
   }
 
-  .result-planet {
-    width: 6rem;
-    height: 6rem;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle at 35% 35%,
-      color-mix(in srgb, var(--planet-color) 80%, white),
-      var(--planet-color)
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow:
-      0 0 30px color-mix(in srgb, var(--planet-color) 50%, transparent),
-      inset -8px -8px 20px rgba(0, 0, 0, 0.3);
-    animation: float 4s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-6px);
-    }
-  }
-
-  .planet-emoji {
-    font-size: 2rem;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
-  }
-
-  .result-info {
-    text-align: center;
-  }
-
-  .result-rank {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-bottom: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .rank-badge {
-    background: var(--snap-yellow);
-    color: #0a0e1a;
-    font-size: 0.75rem;
-    font-weight: 800;
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-    letter-spacing: 0.03em;
-  }
-
-  .rank-planet-name {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  .result-meaning {
+  .result-name {
     font-size: 1.5rem;
     font-weight: 700;
     color: #fff;
+    margin: 0 0 0.5rem;
+  }
+
+  .result-badge {
+    display: inline-block;
+    background: var(--snap-yellow);
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.25rem 0.875rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+  }
+
+  .result-desc {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
     margin: 0 0 0.75rem;
   }
 
-  .result-description {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    margin: 0;
+  .result-hearts {
+    font-size: 1.5rem;
+    margin: 0 0 1.25rem;
+    letter-spacing: 0.25rem;
   }
 
-  @media (min-width: 640px) {
-    .finder-inner {
-      padding: 2.5rem 2rem;
-    }
-
-    .result-card {
-      grid-template-columns: auto 1fr;
-      align-items: center;
-      text-align: left;
-    }
-
-    .result-info {
-      text-align: left;
-    }
-
-    .result-rank {
-      justify-content: flex-start;
-    }
-
-    .result-orbit {
-      padding: 0;
-    }
+  .share-toast {
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--snap-yellow);
   }
 </style>

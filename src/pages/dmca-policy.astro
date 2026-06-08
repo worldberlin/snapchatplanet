@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+---
+
+<BaseLayout
+  title="DMCA Policy — SnapchatPlanet"
+  description="DMCA copyright policy for SnapchatPlanet. Information about reporting copyright infringement on our Snapchat Planets guide website."
+  canonicalPath="/dmca-policy"
+>
+  <section class="section">
+    <Breadcrumb
+      items={[
+        { label: "Home", href: "/" },
+        { label: "DMCA Policy" },
+      ]}
+    />
+
+    <h1>DMCA Policy</h1>
+
+    <div class="prose page-content">
+      <p>
+        SnapchatPlanet respects the intellectual property rights of others and expects users of our
+        website to do the same. In accordance with the Digital Millennium Copyright Act (DMCA), we
+        will respond to notices of alleged copyright infringement that comply with applicable law.
+      </p>
+
+      <h2>Filing a DMCA Notice</h2>
+      <p>
+        If you believe that content on SnapchatPlanet infringes your copyright, please send a written
+        notice to us via our <a href="/contact-us">Contact Us</a> page including: identification of
+        the copyrighted work, identification of the infringing material, your contact information,
+        a statement of good faith belief, and a statement under penalty of perjury that your notice
+        is accurate and you are authorized to act on behalf of the copyright owner.
+      </p>
+
+      <h2>Counter-Notification</h2>
+      <p>
+        If you believe your content was removed in error, you may submit a counter-notification
+        through our contact form with the information required under the DMCA.
+      </p>
+
+      <p>
+        Return to the <a href="/">Snapchat Planets homepage</a> or read our
+        <a href="/terms-and-conditions">Terms and Conditions</a> for more information.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 { font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700; margin: 0 0 1.5rem; }
+  .page-content { max-width: 48rem; }
+</style>

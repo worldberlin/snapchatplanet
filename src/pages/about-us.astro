@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+---
+
+<BaseLayout
+  title="About Us — SnapchatPlanet Independent Guide"
+  description="SnapchatPlanet is an independent information resource about Snapchat Planets, friendship emojis, and the Best Friends Solar System. Not affiliated with Snap Inc."
+  canonicalPath="/about-us"
+>
+  <section class="section">
+    <Breadcrumb
+      items={[
+        { label: "Home", href: "/" },
+        { label: "About Us" },
+      ]}
+    />
+
+    <h1>About Us</h1>
+
+    <div class="prose page-content">
+      <p>
+        <strong>SnapchatPlanet</strong> is an independent information resource dedicated to helping
+        Snapchat users understand the platform's friendship features — including
+        <a href="/snapchat-planets">Snapchat Planets</a>, the Best Friends Solar System,
+        <a href="/emojis-and-symbols">friendship emojis</a>, and related symbols.
+      </p>
+
+      <p>
+        Our mission is to provide clear, accurate, and accessible guides that decode the often
+        confusing world of Snapchat friendship rankings. Whether you want to know what it means to
+        be someone's Mercury, understand the difference between planets and emojis, or learn how
+        Snapchat calculates best friend positions, we aim to be your go-to reference.
+      </p>
+
+      <p>
+        We are <strong>not affiliated with Snap Inc.</strong> or Snapchat in any way. SnapchatPlanet
+        is an unofficial fan and educational resource created by Snapchat enthusiasts. All Snapchat
+        trademarks, logos, and feature names belong to their respective owners.
+      </p>
+
+      <p>
+        Have questions or feedback? Visit our <a href="/contact-us">Contact Us</a> page or explore
+        the <a href="/">Snapchat Planets homepage</a> to use our interactive planet finder tool.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+  }
+
+  .page-content {
+    max-width: 48rem;
+  }
+</style>

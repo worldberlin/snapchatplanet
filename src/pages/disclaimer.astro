@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+---
+
+<BaseLayout
+  title="Disclaimer — SnapchatPlanet"
+  description="Disclaimer for SnapchatPlanet. We are an independent guide to Snapchat Planets and are not affiliated with Snap Inc."
+  canonicalPath="/disclaimer"
+>
+  <section class="section">
+    <Breadcrumb
+      items={[
+        { label: "Home", href: "/" },
+        { label: "Disclaimer" },
+      ]}
+    />
+
+    <h1>Disclaimer</h1>
+
+    <div class="prose page-content">
+      <p>
+        The information provided on SnapchatPlanet (snapchatplanet-six.vercel.app) is for general
+        informational and educational purposes only. All content regarding
+        <a href="/snapchat-planets">Snapchat Planets</a>, the Best Friends Solar System,
+        <a href="/emojis-and-symbols">friendship emojis</a>, and related Snapchat features is
+        based on publicly available information and user reports.
+      </p>
+
+      <h2>Not Affiliated with Snap Inc.</h2>
+      <p>
+        SnapchatPlanet is <strong>not affiliated with, endorsed by, sponsored by, or officially
+        connected to Snap Inc.</strong> or Snapchat. Snapchat, Snapchat Plus, Snapchat Planets, and
+        all related names, logos, and trademarks are the property of Snap Inc. Our use of these terms
+        is for descriptive and educational purposes only.
+      </p>
+
+      <h2>Accuracy of Information</h2>
+      <p>
+        Snapchat features change frequently. While we strive to keep our guides accurate and
+        up-to-date, we make no representations or warranties about the completeness, reliability,
+        or accuracy of any information on this site. Feature availability, pricing, and mechanics
+        may differ from what is described.
+      </p>
+
+      <h2>No Professional Advice</h2>
+      <p>
+        Content on this site does not constitute professional, legal, or technical advice. Use
+        information at your own discretion.
+      </p>
+
+      <p>
+        For questions, visit <a href="/contact-us">Contact Us</a> or return to the
+        <a href="/">Snapchat Planets homepage</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 { font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700; margin: 0 0 1.5rem; }
+  .page-content { max-width: 48rem; }
+</style>

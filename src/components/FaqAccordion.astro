@@ -1,0 +1,121 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq" id="faq-accordion">
+  {
+    items.map((item, i) => (
+      <div class="faq-item">
+        <button
+          type="button"
+          class="faq-question"
+          aria-expanded="false"
+          data-faq={i}
+        >
+          <span>{item.question}</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" hidden>
+          <p>{item.answer}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll(".faq-question").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".faq-item");
+      const answer = item?.querySelector(".faq-answer");
+      const icon = btn.querySelector(".faq-icon");
+      const isOpen = btn.getAttribute("aria-expanded") === "true";
+
+      document.querySelectorAll(".faq-question").forEach((other) => {
+        if (other !== btn) {
+          other.setAttribute("aria-expanded", "false");
+          other.closest(".faq-item")?.querySelector(".faq-answer")?.setAttribute("hidden", "");
+          const otherIcon = other.querySelector(".faq-icon");
+          if (otherIcon) otherIcon.textContent = "+";
+        }
+      });
+
+      btn.setAttribute("aria-expanded", String(!isOpen));
+      if (isOpen) {
+        answer?.setAttribute("hidden", "");
+        if (icon) icon.textContent = "+";
+      } else {
+        answer?.removeAttribute("hidden");
+        if (icon) icon.textContent = "−";
+      }
+    });
+  });
+</script>
+
+<style>
+  .faq {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    background: var(--bg-surface);
+  }
+
+  .faq-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .faq-question:hover {
+    background: rgba(255, 252, 0, 0.05);
+  }
+
+  .faq-icon {
+    color: var(--snap-yellow);
+    font-size: 1.25rem;
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+
+  .faq-answer {
+    padding: 0 1.25rem 1rem;
+  }
+
+  .faq-answer[hidden] {
+    display: none;
+  }
+
+  .faq-answer p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+</style>

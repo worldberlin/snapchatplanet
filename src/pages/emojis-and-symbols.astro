@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import { planets } from "../data/planets";
+---
+
+<BaseLayout
+  title="Snapchat Emojis and Symbols: Complete Meaning Guide"
+  description="Complete guide to Snapchat friendship emojis and symbols. Learn what Yellow Heart, Red Heart, Pink Hearts, Fire, and all Snapchat symbols mean."
+  canonicalPath="/emojis-and-symbols"
+>
+  <section class="section">
+    <Breadcrumb
+      items={[
+        { label: "Home", href: "/" },
+        { label: "Emojis & Symbols" },
+      ]}
+    />
+
+    <h1>Snapchat Emojis and Symbols: Complete Meaning Guide</h1>
+
+    <div class="prose page-content">
+      <p>
+        Snapchat uses a rich system of friendship emojis and symbols to communicate relationship
+        status between users. Unlike <strong>Snapchat Planets</strong> — which are exclusive to
+        <strong>Snapchat Plus</strong> subscribers and visualize your top eight friends as a solar
+        system — friendship emojis are visible to everyone and appear directly next to friend names
+        in your chat list. This guide explains every major emoji and symbol on Snapchat, how they
+        relate to the <a href="/snapchat-planets">Best Friends Solar System</a>, and what each one
+        means for your friendships. Return to the <a href="/">Snapchat Planets homepage</a> for
+        the interactive planet finder tool.
+      </p>
+
+      <h2>Friendship Emojis</h2>
+
+      <h3>Yellow Heart 💛</h3>
+      <p>
+        The Yellow Heart appears when you and a friend are each other's #1 best friend on Snapchat.
+        This is the most sought-after friendship emoji, equivalent to being each other's Mercury in
+        the planetary system. Both users must snap each other more than anyone else for this emoji
+        to appear. After two weeks, it upgrades to the Red Heart.
+      </p>
+
+      <h3>Red Heart ❤️</h3>
+      <p>
+        The Red Heart replaces the Yellow Heart after you and a friend maintain mutual #1 best
+        friend status for two consecutive weeks. It signals a deepening bond and consistent daily
+        interaction. Losing the Red Heart means someone else has become your top best friend.
+      </p>
+
+      <h3>Pink Hearts 💕</h3>
+      <p>
+        Pink Hearts appear after two months of mutual #1 best friend status. This is the longest-lasting
+        friendship emoji and represents one of Snapchat's most enduring digital bonds. Pink Hearts
+        indicate remarkable consistency in daily snapping habits.
+      </p>
+
+      <h3>Fire 🔥</h3>
+      <p>
+        The Fire emoji marks an active snap streak — consecutive days of exchanging snaps with a
+        friend within 24-hour windows. Streak length is displayed as a number next to the fire. Long
+        streaks contribute to higher planet rankings in the Best Friends Solar System.
+      </p>
+
+      <h3>100 💯</h3>
+      <p>
+        The 100 emoji celebrates reaching a 100-day snap streak with a friend. It replaces the
+        standard Fire emoji temporarily to mark this milestone achievement.
+      </p>
+
+      <h3>Sunglasses 😎</h3>
+      <p>
+        Sunglasses appear when you and a friend share a mutual best friend — someone who is a top
+        best friend for both of you. It indicates overlapping social circles and shared close
+        connections.
+      </p>
+
+      <h2>Planet Heart Emojis</h2>
+      <p>
+        Each planet in the Snapchat solar system also displays specific heart emojis alongside
+        friend names. These planet-specific hearts differ from the mutual best friend emojis above
+        and are only visible within the Snapchat Plus solar system view:
+      </p>
+      <ul>
+        {
+          planets.map((p) => (
+            <li>
+              <a href={`/snapchat-planets/${p.slug}`}>{p.name}</a> (Rank #{p.rank}): {p.hearts}
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2>Emojis vs Planets: Key Differences</h2>
+      <p>
+        Friendship emojis are mutual and visible to both friends involved. Snapchat Planets are a
+        one-directional view — only the Snapchat Plus subscriber sees the solar system ranking.
+        Emojis reflect mutual top-friend status, while planets rank all eight of your most-interacted
+        friends regardless of whether the ranking is mutual. You can be someone's Mercury while they
+        are your Neptune, but you cannot have Yellow Hearts unless you are mutually each other's #1.
+      </p>
+
+      <p>
+        For the complete planets order and interactive finder tool, visit our
+        <a href="/">Snapchat Planets homepage</a> or explore the
+        <a href="/snapchat-planets">Snapchat Planets hub page</a> for individual planet guides
+        covering Mercury through Neptune.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+    max-width: 48rem;
+  }
+
+  .page-content {
+    max-width: 48rem;
+  }
+</style>

@@ -1,0 +1,177 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { planets } from "../../data/planets";
+---
+
+<BaseLayout
+  title="Snapchat Planets Order: Complete Guide to Best Friends Solar System"
+  description="Complete guide to Snapchat Planets order from Mercury to Neptune. Learn what each planet means in the Best Friends Solar System and how friendship rankings work."
+  canonicalPath="/snapchat-planets"
+>
+  <section class="section">
+    <Breadcrumb
+      items={[
+        { label: "Home", href: "/" },
+        { label: "Snapchat Planets" },
+      ]}
+    />
+
+    <h1>Snapchat Planets Order: Complete Guide to Best Friends Solar System</h1>
+
+    <div class="prose page-content">
+      <p>
+        Welcome to the definitive guide to <strong>Snapchat Planets</strong> — the visual friendship
+        ranking system available exclusively to <strong>Snapchat Plus</strong> subscribers. If you
+        have ever wondered what it means to be someone's Mercury or why you landed on Neptune,
+        this hub page explains everything about the <strong>Best Friends Solar System</strong> in
+        one place. Return to our <a href="/">Snapchat Planets homepage</a> for the interactive
+        planet finder tool, or dive into individual planet guides below.
+      </p>
+
+      <p>
+        The Snapchat solar system mirrors our real solar system with eight planets orbiting a central
+        Sun — which represents you, the Snapchat Plus subscriber. Each of your top eight best friends
+        is assigned a planet based on how frequently you interact with them through snaps, chats,
+        story replies, and other engagement metrics. Mercury is closest to the Sun and represents
+        your #1 best friend, the person you snap most. Venus is second, Earth third, and so on
+        through Mars, Jupiter, Saturn, Uranus, and finally Neptune at the outermost eighth orbit.
+      </p>
+
+      <p>
+        Understanding the Snapchat planets order helps you decode friendship dynamics in the digital
+        age. Unlike standard friendship emojis that both users can see, the solar system view is
+        private to the subscriber — giving you a personal map of your closest connections. Rankings
+        update dynamically based on Snapchat's recency algorithm, which weighs recent interaction
+        frequency more heavily than historical patterns. This means a week of intense snapping with
+        one friend can shift their planet position significantly.
+      </p>
+
+      <p>
+        Each planet in the system carries its own emoji, heart symbols, and color identity. Mercury
+        (🔴) displays pink and red hearts, Venus (🟡) shows yellow and pink hearts, Earth (🌍) features
+        green, blue, and star emojis, and the pattern continues through each rank. These visual
+        indicators make it easy to quickly identify a friend's position in your solar system at a
+        glance. Whether you are trying to become someone's Mercury or simply curious about your
+        current rank, understanding each planet's meaning is the first step.
+      </p>
+
+      <p>
+        Below you will find links to detailed guides for every planet in the Snapchat Best Friends
+        Solar System. Each guide covers the planet's rank, heart emojis, what the position means
+        for your friendship, and practical tips for reaching or maintaining that orbit. We also
+        recommend exploring our <a href="/emojis-and-symbols">Snapchat Emojis and Symbols guide</a>
+        to understand how friendship badges complement the planetary ranking system.
+      </p>
+
+      <h2>All 8 Snapchat Planets — Quick Reference</h2>
+      <div class="planet-links-grid">
+        {
+          planets.map((planet) => (
+            <a
+              href={`/snapchat-planets/${planet.slug}`}
+              class="planet-link-card"
+              style={`--planet-color: ${planet.color}`}
+            >
+              <span class="plc-emoji">{planet.emoji}</span>
+              <span class="plc-name">{planet.name}</span>
+              <span class="plc-rank">Rank #{planet.rank}</span>
+              <span class="plc-meaning">{planet.shortMeaning}</span>
+            </a>
+          ))
+        }
+      </div>
+
+      <h2>How to Use This Guide</h2>
+      <p>
+        Start by identifying which planet you or a friend currently occupies in the solar system.
+        Click the corresponding planet card above to read the full guide for that rank. If you are
+        new to Snapchat Planets entirely, head back to the
+        <a href="/">Snapchat Planets homepage</a> and use our interactive planet finder tool to
+        explore each position. For questions about Snapchat Plus subscription requirements, planet
+        changes over time, and how rankings differ from friendship emojis, the FAQ section on our
+        homepage has detailed answers.
+      </p>
+
+      <p>
+        Remember that Snapchat Planets is a Snapchat Plus feature priced at approximately $3.99 per
+        month. Only the subscriber can view the solar system — friends being ranked do not need their
+        own subscription. Planet positions are not permanent and shift based on your daily interaction
+        habits, so the solar system is always a living reflection of your current friendship priorities
+        on Snapchat.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+    max-width: 48rem;
+  }
+
+  .page-content {
+    max-width: 48rem;
+  }
+
+  .planet-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .planet-link-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.25rem;
+    background: var(--bg-surface);
+    border: 2px solid var(--planet-color);
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: box-shadow 0.3s, transform 0.2s;
+  }
+
+  .planet-link-card:hover {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--planet-color) 35%, transparent);
+    transform: translateY(-3px);
+    text-decoration: none;
+  }
+
+  .plc-emoji {
+    font-size: 2rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .plc-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 1rem;
+  }
+
+  .plc-rank {
+    font-size: 0.6875rem;
+    font-weight: 800;
+    background: var(--snap-yellow);
+    color: #000;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    margin: 0.375rem 0;
+  }
+
+  .plc-meaning {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 768px) {
+    .planet-links-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

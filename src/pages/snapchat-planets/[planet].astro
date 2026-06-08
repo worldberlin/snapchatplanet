@@ -1,0 +1,217 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { planets, getAdjacentPlanets } from "../../data/planets";
+
+export function getStaticPaths() {
+  return planets.map((planet) => ({
+    params: { planet: planet.slug },
+    props: { planet },
+  }));
+}
+
+const { planet } = Astro.props;
+const { prev, next } = getAdjacentPlanets(planet.slug);
+
+const howToReach = [
+  "Send snaps to this friend every single day without skipping",
+  "Maintain an active snap streak and respond within 24 hours",
+  "Reply to their stories with thoughtful messages or reactions",
+  "Initiate chat conversations regularly, not just one-way snaps",
+  "Engage consistently for at least one to two weeks to see rank changes",
+];
+---
+
+<BaseLayout
+  title={`${planet.name} Snapchat Planet — What Does It Mean? (Rank #${planet.rank})`}
+  description={`Learn what ${planet.name} means in the Snapchat Best Friends Solar System. Rank #${planet.rank} guide with heart emojis, friendship meaning, and tips to reach this planet.`}
+  canonicalPath={`/snapchat-planets/${planet.slug}`}
+>
+  <section class="section">
+    <Breadcrumb
+      items={[
+        { label: "Home", href: "/" },
+        { label: "Snapchat Planets", href: "/snapchat-planets" },
+        { label: planet.name },
+      ]}
+    />
+
+    <div class="planet-hero" style={`--planet-color: ${planet.color}`}>
+      <span class="planet-hero-emoji">{planet.emoji}</span>
+      <h1>{planet.name} Snapchat Planet — What Does It Mean?</h1>
+      <span class="rank-badge">RANK #{planet.rank}</span>
+      <p class="planet-hearts">{planet.hearts}</p>
+    </div>
+
+    <div class="prose page-content">
+      <p>{planet.fullDescription}</p>
+
+      <p>
+        In the broader context of the <strong>Snapchat Planets</strong> system, {planet.name} is one
+        of eight positions in the <strong>Best Friends Solar System</strong> available to
+        <strong>Snapchat Plus</strong> subscribers. Your rank as {planet.name} reflects your current
+        standing based on snap frequency, chat activity, story replies, and Snapchat's recency
+        algorithm. Visit our <a href="/">Snapchat Planets homepage</a> to use the interactive planet
+        finder, or explore the full <a href="/snapchat-planets">Snapchat Planets order guide</a> for
+        context on all eight ranks.
+      </p>
+
+      <h2>How to Reach {planet.name} Rank</h2>
+      <ol>
+        {howToReach.map((tip) => <li>{tip}</li>)}
+      </ol>
+
+      <p>
+        Keep in mind that planet rankings are relative — your position depends on how your
+        interaction frequency compares to other friends in the solar system. Focus on genuine,
+        consistent engagement rather than trying to game the algorithm with empty snaps.
+      </p>
+    </div>
+
+    <nav class="related-planets" aria-label="Related planets">
+      <h2 class="related-title">Related Planets</h2>
+      <div class="related-grid">
+        {
+          prev ? (
+            <a href={`/snapchat-planets/${prev.slug}`} class="related-card">
+              <span class="related-dir">← Previous</span>
+              <span class="related-emoji">{prev.emoji}</span>
+              <span class="related-name">{prev.name}</span>
+              <span class="related-rank">Rank #{prev.rank}</span>
+            </a>
+          ) : (
+            <div />
+          )
+        }
+        {
+          next ? (
+            <a href={`/snapchat-planets/${next.slug}`} class="related-card related-card--next">
+              <span class="related-dir">Next →</span>
+              <span class="related-emoji">{next.emoji}</span>
+              <span class="related-name">{next.name}</span>
+              <span class="related-rank">Rank #{next.rank}</span>
+            </a>
+          ) : (
+            <div />
+          )
+        }
+      </div>
+    </nav>
+  </section>
+</BaseLayout>
+
+<style>
+  .planet-hero {
+    text-align: center;
+    padding: 2rem 1rem 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .planet-hero-emoji {
+    font-size: 5rem;
+    display: block;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 24px var(--planet-color));
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .planet-hero h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    margin: 0 0 1rem;
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .rank-badge {
+    display: inline-block;
+    background: var(--snap-yellow);
+    color: #000;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    padding: 0.3rem 1rem;
+    border-radius: 999px;
+  }
+
+  .planet-hearts {
+    font-size: 1.75rem;
+    margin: 1rem 0 0;
+    letter-spacing: 0.3rem;
+  }
+
+  .page-content {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+
+  .related-planets {
+    max-width: 48rem;
+    margin: 3rem auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .related-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 1rem;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.25rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .related-card:hover {
+    border-color: var(--snap-yellow);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .related-card--next {
+    text-align: center;
+  }
+
+  .related-dir {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .related-emoji {
+    font-size: 2rem;
+  }
+
+  .related-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0.25rem 0;
+  }
+
+  .related-rank {
+    font-size: 0.75rem;
+    color: var(--snap-yellow);
+    font-weight: 600;
+  }
+</style>

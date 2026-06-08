@@ -1,412 +1,527 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PlanetFinder from "../components/PlanetFinder.astro";
+import FaqAccordion from "../components/FaqAccordion.astro";
 import { planets } from "../data/planets";
+import { blogPosts } from "../data/blogs";
+
+const faqItems = [
+  {
+    question: "Do both people need Snapchat+ to see planets?",
+    answer:
+      "Only the person viewing the solar system needs an active Snapchat Plus subscription. The subscriber can see which planet each of their top eight friends occupies in their Best Friends Solar System. The friends being ranked do not need Snapchat Plus themselves — they simply need to be among the subscriber's eight most-interacted friends for a planet to appear next to their name.",
+  },
+  {
+    question: "Can your Snapchat planet change over time?",
+    answer:
+      "Yes, Snapchat planet positions update dynamically based on your recent interaction patterns. If you snap one friend more frequently than another over a period of days, rankings can shift accordingly. A friend who was your Mercury last week might become your Venus this week if someone else receives more snaps, chats, and story replies from you recently.",
+  },
+  {
+    question: "What does it mean if you're not in someone's top 8?",
+    answer:
+      "If you do not appear in someone's Best Friends Solar System, you are not among their eight most-interacted friends based on Snapchat's recency algorithm. This does not necessarily mean the friendship is weak — it simply means other friends currently have higher interaction frequency. Increasing daily snaps and chat activity can help you enter their top eight.",
+  },
+  {
+    question: "What is the difference between planets and best friends emoji?",
+    answer:
+      "Best friends emojis (like Yellow Heart or Red Heart) appear next to friend names and reflect mutual top-friend status visible to both users. Snapchat planets are a Snapchat Plus exclusive feature that visualizes your top eight friends as a solar system — only the subscriber sees this ranking. Emojis are platform-wide; planets are a premium solar system view.",
+  },
+  {
+    question: "Why does my Snapchat planet keep changing?",
+    answer:
+      "Planet rankings are recalculated continuously based on snap frequency, chat activity, story replies, and interaction recency. Busy periods with one friend can temporarily boost their rank, while reduced activity causes positions to drop. This dynamic system reflects your current friendship priorities rather than long-term historical patterns.",
+  },
+  {
+    question: "What is the rarest Snapchat planet?",
+    answer:
+      "Mercury is considered the rarest and most coveted Snapchat planet because only one person can hold the #1 position in each user's solar system. Being someone's Mercury means you exchange more snaps with them than any other friend — a highly competitive spot when someone has many active Snapchat connections.",
+  },
+  {
+    question: "Can I be someone's Mercury but they are my Neptune?",
+    answer:
+      "Yes, planet rankings are independent for each user. You might be someone's Mercury because you snap them constantly, while they rarely snap you back — placing them at Neptune or outside your top eight entirely. Snapchat calculates rankings separately for every user's solar system based on their individual interaction data.",
+  },
+  {
+    question: "Does Snapchat planet affect my streak?",
+    answer:
+      "No, your planet ranking does not directly affect snap streaks. Streaks are maintained by exchanging snaps with a specific friend within a 24-hour window regardless of planet position. However, the same daily snapping habits that maintain streaks also tend to improve your planet ranking, since both rely on consistent interaction frequency.",
+  },
+];
 ---
 
 <BaseLayout
-  title="Snapchat Planets: Complete Guide to Best Friends Solar System"
-  description="Snapchat planets explained — learn what each planet means, find your best friend rank from Mercury to Neptune, and master the Snapchat solar system."
+  title="Snapchat Planets Order: All 8 Planets Explained (2024 Guide)"
+  description="Learn what Snapchat Planets mean, the complete Best Friends Solar System order from Mercury to Neptune, and how to check your planet rank on Snapchat."
+  canonicalPath="/"
 >
-  <!-- Hero -->
+  <!-- HERO -->
   <section class="hero">
-    <div class="hero-glow" aria-hidden="true"></div>
-    <div class="hero-orbit-ring" aria-hidden="true"></div>
-    <div class="hero-content">
-      <span class="hero-badge">✨ Snapchat Solar System Guide</span>
-      <h1>Snapchat Planets: Complete Guide to Best Friends Solar System</h1>
-      <p class="hero-lead">
-        Ever wondered what planet you are in someone's Snapchat universe? Discover
-        how the <strong>snapchat planets</strong> system ranks your friendships
-        from Mercury to Neptune — and use our interactive tool to decode every
-        orbit.
+    <div class="hero-inner">
+      <h1>Snapchat Planets: What Is Your Planet on Snapchat?</h1>
+      <p class="hero-sub">
+        Discover what each Snapchat planet means, decode your Best Friends Solar
+        System, and find out where you rank in your friends' universe.
       </p>
-      <div class="hero-actions">
-        <a href="#planet-finder" class="btn btn-primary">Find Your Planet</a>
-        <a href="/snapchat-planets" class="btn btn-outline">Explore All Planets</a>
-      </div>
-    </div>
-
-    <div class="hero-visual" aria-hidden="true">
-      <div class="solar-system">
-        <div class="sun"></div>
-        {
-          planets.map((planet, i) => (
-            <div
-              class="orbit"
-              style={`--orbit-size: ${(i + 1) * 2.75}rem; --duration: ${12 + i * 3}s; --delay: ${-i * 1.5}s`}
-            >
-              <div
-                class="mini-planet"
-                style={`--planet-color: ${planet.color}`}
-                title={planet.name}
-              />
-            </div>
-          ))
-        }
+      <a href="#planet-finder" class="btn btn-primary">Find Your Planet ↓</a>
+      <div class="planet-strip" aria-hidden="true">
+        <span class="strip-planet" style="--glow:#FF6B6B">🔴</span>
+        <span class="strip-planet" style="--glow:#F59E0B">🟡</span>
+        <span class="strip-planet" style="--glow:#10B981">🌍</span>
+        <span class="strip-planet" style="--glow:#EF4444">🟠</span>
+        <span class="strip-planet" style="--glow:#92400E">🤎</span>
+        <span class="strip-planet" style="--glow:#D97706">🪐</span>
+        <span class="strip-planet" style="--glow:#60A5FA">🔵</span>
+        <span class="strip-planet" style="--glow:#3B82F6">🌑</span>
       </div>
     </div>
   </section>
 
-  <!-- Planet Finder Tool -->
+  <!-- PLANET FINDER -->
+  <PlanetFinder />
+
+  <!-- MAIN CONTENT -->
+  <article class="section prose">
+    <h2>What Are Snapchat Planets?</h2>
+    <p>
+      Snapchat Planets are a premium feature within the <strong>Snapchat Plus</strong> subscription
+      that transforms your best friends list into a visual <strong>Best Friends Solar System</strong>.
+      Introduced by <strong>Snap Inc.</strong> as part of their subscriber-only toolkit, this feature
+      assigns each of your top eight friends a planet — from Mercury (closest to the Sun) to Neptune
+      (outermost orbit) — based on your <strong>friendship ranking</strong> determined by interaction
+      frequency. The closer a friend's planet is to the center of the <strong>solar system</strong>,
+      the more you interact with them through snaps, chats, and story replies. Snapchat Planets is
+      exclusively available to <strong>Snapchat+</strong> subscribers who pay approximately
+      <strong>$3.99/month</strong> for access to this and other premium features. Unlike standard
+      friendship emojis visible to all users, the planetary solar system view gives subscribers a
+      private, detailed look at how their closest friendships are ranked. Whether you are Mercury
+      in someone's universe or floating at Neptune, understanding this <strong>premium feature</strong>
+      helps decode modern digital friendship dynamics on
+      <a href="https://www.snapchat.com" target="_blank" rel="noopener">Snapchat</a>.
+    </p>
+
+    <h2>Snapchat Planets Order — All 8 Planets Explained</h2>
+    <p>
+      The Snapchat solar system follows the same order as our real solar system. Mercury is closest
+      to the Sun (your #1 best friend), while Neptune sits at the outermost orbit (your #8 best
+      friend). Each planet position reflects a specific friendship rank based on how frequently you
+      interact with that person. Below is the complete Snapchat planets order with emojis, heart
+      symbols, and meanings for every rank in the Best Friends Solar System.
+    </p>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Planet</th>
+            <th>Emoji</th>
+            <th>Hearts</th>
+            <th>What It Means</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            planets.map((p) => (
+              <tr>
+                <td>#{p.rank}</td>
+                <td>
+                  <a href={`/snapchat-planets/${p.slug}`}>{p.name}</a>
+                </td>
+                <td>{p.emoji}</td>
+                <td>{p.hearts}</td>
+                <td>{p.shortMeaning}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Snapchat Mercury — Rank #1 Best Friend</h2>
+    <p>
+      Mercury is the crown jewel of the Snapchat solar system — the planet closest to the Sun and
+      the ultimate symbol of your number one best friend. When you see Mercury next to someone's
+      name in a friend's Best Friends Solar System, it means that person exchanges more snaps with
+      them than anyone else. Mercury friends typically display pink and red heart emojis (💗❤️🩷),
+      reflecting the intensity of the bond. Becoming someone's Mercury requires relentless daily
+      engagement: sending snaps every day, maintaining long streaks, replying to stories promptly,
+      and being an irreplaceable part of their Snapchat routine. Because only one person can hold
+      Mercury at a time, this position is highly competitive among close friend groups. Mercury
+      rankings update dynamically, so consistent interaction is essential to holding the top spot.
+      For a deep dive into this coveted position, read our
+      <a href="/snapchat-planets/mercury">Mercury Planet Guide</a>.
+    </p>
+
+    <h2>Snapchat Venus — Rank #2</h2>
+    <p>
+      Venus represents the second orbit in the Snapchat Best Friends Solar System — your runner-up
+      best friend who snaps and chats with you more than anyone except your Mercury. Venus friends
+      display yellow and pink hearts (💛🩷), signaling warmth and closeness just one step behind
+      the top position. Earning Venus means you are a core part of someone's daily Snapchat life.
+      Many users actively work to climb from Venus to Mercury by increasing snap frequency and
+      chat engagement. Venus is a prestigious rank that confirms you are among their two closest
+      digital friendships. Learn more in our
+      <a href="/snapchat-planets/venus">Venus Snapchat Planet guide</a>.
+    </p>
+
+    <h2>Snapchat Earth — Rank #3</h2>
+    <p>
+      Earth holds the third position in the Snapchat planets order, marking you as someone's third
+      most-interacted best friend. Earth friends show green, blue, and star emojis (💚💙⭐),
+      representing a grounded and reliable friendship connection. While not the top two spots, Earth
+      still places you firmly in someone's inner social circle on Snapchat. Maintaining Earth status
+      requires regular daily snaps, active chat participation, and consistent story engagement.
+      Explore the full meaning in our
+      <a href="/snapchat-planets/earth">Earth Snapchat Planet guide</a>.
+    </p>
+
+    <h2>Snapchat Mars — Rank #4</h2>
+    <p>
+      Mars is the fourth planet in the Snapchat solar system, representing someone's fourth
+      most-interacted friend. Mars friends display red, purple, and star emojis (❤️💜⭐). This
+      position reflects a strong friendship with regular snap exchanges and active streaks, though
+      three other friends currently rank higher in interaction volume. Increasing daily engagement
+      can help you climb from Mars toward Earth, Venus, or even Mercury. Read our complete
+      <a href="/snapchat-planets/mars">Mars Snapchat Planet guide</a> for tips on improving your rank.
+    </p>
+
+    <h2>Snapchat Jupiter — Rank #5</h2>
+    <p>
+      Jupiter occupies the fifth orbit in the Best Friends Solar System — a substantial friendship
+      that remains consistently active without being among the most frequent daily interactors.
+      Jupiter friends show pink and blue hearts (💗💙). Named after the largest planet in our solar
+      system, this Snapchat rank signifies a meaningful connection maintained through regular snaps,
+      group chats, and story interactions. Discover more in our
+      <a href="/snapchat-planets/jupiter">Jupiter Snapchat Planet guide</a>.
+    </p>
+
+    <h2>Snapchat Saturn — Rank #6</h2>
+    <p>
+      Saturn holds the sixth position in the Snapchat planets order, marking you as someone's sixth
+      most-interacted best friend. Like its real-world namesake with distinctive rings, Saturn
+      represents a friendship with defined boundaries — close enough for the top eight, but not
+      among the most active daily connections. Saturn friends display yellow heart and star emojis
+      (💛⭐). Learn how to climb the ranks in our
+      <a href="/snapchat-planets/saturn">Saturn Snapchat Planet guide</a>.
+    </p>
+
+    <h2>Snapchat Uranus — Rank #7</h2>
+    <p>
+      Uranus is the seventh planet in Snapchat's friendship solar system, placing you as someone's
+      seventh most-interacted best friend. Still within the top eight cutoff, Uranus friends show
+      blue and green hearts (💙💚). This outer orbit position means lower interaction frequency
+      compared to the six friends above, but sustained engagement keeps you in the solar system.
+      Read our <a href="/snapchat-planets/uranus">Uranus Snapchat Planet guide</a> for strategies
+      to move inward.
+    </p>
+
+    <h2>Snapchat Neptune — Rank #8</h2>
+    <p>
+      Neptune is the outermost and final planet in the Snapchat Best Friends Solar System —
+      someone's eighth and last ranked best friend. Neptune friends display a single blue heart (💙),
+      signaling a connection at the edge of the top eight. This position is precarious; reduced
+      activity can push you out of the solar system entirely. Find out how to maintain or improve
+      your rank in our <a href="/snapchat-planets/neptune">Neptune Snapchat Planet guide</a>.
+    </p>
+
+    <h2>How Does Snapchat Calculate Planet Rankings?</h2>
+    <p>
+      Snapchat uses a sophisticated recency algorithm to calculate planet rankings within the Best
+      Friends Solar System. The primary factors include <strong>interaction frequency</strong> — how
+      often you exchange snaps and chat messages — along with your <strong>snap score</strong>
+      activity relative to each friend. <strong>Streak</strong> maintenance contributes significantly,
+      as daily snap exchanges signal consistent engagement. <strong>Chat activity</strong> and
+      <strong>story replies</strong> also factor into rankings, rewarding friends who interact
+      across multiple Snapchat features. The algorithm prioritizes <strong>recency</strong>, meaning
+      recent interactions weigh more heavily than historical patterns. Your <strong>best friends
+      list</strong> is recalculated continuously, so <strong>daily interactions</strong> with a
+      specific person can rapidly shift their planet position. Understanding these factors helps you
+      strategize how to climb from Neptune toward Mercury in any friend's solar system.
+    </p>
+
+    <h2>How to See Your Snapchat Planet</h2>
+    <p>
+      To see your Snapchat planet in someone's Best Friends Solar System, follow these steps.
+      First, ensure you have an active <strong>Snapchat Plus</strong> subscription — planets are
+      not visible to free users. Open Snapchat and navigate to a friend's profile by tapping their
+      Bitmoji or name in Chat. Look for the "Best Friends" or solar system badge on their profile
+      if they are a fellow Snapchat Plus subscriber viewing their own system. To check which planet
+      <em>you</em> occupy in a friend's solar system, ask them to open their solar system view and
+      look for your name among the eight orbiting planets. Alternatively, subscribe to Snapchat Plus
+      and view your own Best Friends Solar System to see how you have ranked your top eight friends.
+      For a complete walkthrough, visit our
+      <a href="/snapchat-planets">Snapchat Planets Guide</a> hub page.
+    </p>
+
+    <h2>What Is Snapchat Plus?</h2>
+    <p>
+      <strong>Snapchat Plus</strong> is a paid <strong>subscription</strong> tier offered by Snap Inc.
+      that unlocks <strong>premium features</strong> beyond the standard free experience. Priced at
+      approximately <strong>$3.99</strong> per month, the subscription includes the Best Friends
+      Solar System (Snapchat Planets), a <strong>Best Friends badge</strong>, <strong>Super BFF</strong>
+      indicators, <strong>custom app icons</strong>, story rewatch counts, and exclusive Bitmoji
+      backgrounds. Snapchat Plus is designed for power users who want deeper insight into their
+      friendships and more personalization options. The planets feature alone makes the subscription
+      popular among users curious about their friendship rankings. Visit the
+      <a href="https://www.snapchat.com/plus" target="_blank" rel="noopener">Snapchat Plus official page</a>
+      for current pricing and the full feature list.
+    </p>
+
+    <h2>Snapchat Best Friends Badges Explained</h2>
+    <p>
+      Beyond planets, Snapchat uses friendship emojis to signal relationship status. The
+      <strong>Yellow Heart 💛</strong> appears when you and a friend are each other's #1 best friend.
+      The <strong>Red Heart ❤️</strong> replaces it after two weeks of mutual top-friend status. Pink
+      Hearts <strong>💕</strong> indicate a long-term mutual best friendship lasting two months or
+      more. The <strong>Fire 🔥</strong> emoji marks an active snap streak, while <strong>100 💯</strong>
+      celebrates a 100-day streak milestone. <strong>Sunglasses 😎</strong> means you share a mutual
+      best friend — you are both close to the same person. These emojis differ from planets because
+      they are visible to both friends involved, whereas the solar system view is exclusive to
+      Snapchat Plus subscribers. For a complete breakdown of every emoji, visit our
+      <a href="/emojis-and-symbols">Snapchat Emojis Guide</a>.
+    </p>
+
+    <h2>Tips to Become Someone's Mercury on Snapchat</h2>
+    <ol>
+      <li>
+        <strong>Send daily snaps</strong> — Consistency is the single most important factor. Snap
+        them every day, even if it is a quick photo or selfie.
+      </li>
+      <li>
+        <strong>Maintain streaks</strong> — Active snap streaks signal ongoing engagement and boost
+        your interaction score significantly.
+      </li>
+      <li>
+        <strong>Reply to stories</strong> — Story replies count toward interaction frequency and
+        show you are paying attention to their content.
+      </li>
+      <li>
+        <strong>Engage in group chats</strong> — Participating in shared group conversations
+        increases your overall visibility and interaction metrics.
+      </li>
+      <li>
+        <strong>Be consistent</strong> — Sporadic bursts of activity are less effective than
+        steady daily engagement over weeks and months.
+      </li>
+    </ol>
+
+    <h2>Frequently Asked Questions</h2>
+    <FaqAccordion items={faqItems} />
+  </article>
+
+  <!-- PLANET CARDS GRID -->
   <section class="section">
-    <PlanetFinder />
-  </section>
-
-  <!-- Quick Overview -->
-  <section class="section overview">
-    <div class="section-inner">
-      <h2 class="section-title">How Snapchat Planets Work</h2>
-      <p class="section-lead">
-        Snapchat assigns each of your top eight best friends a planet in a solar
-        system orbiting around you. The closer the planet to the Sun, the higher
-        the friendship rank.
-      </p>
-      <div class="planet-grid">
-        {
-          planets.map((planet) => (
-            <article class="planet-card">
-              <div
-                class="planet-card-icon"
-                style={`--planet-color: ${planet.color}`}
-              >
-                {planet.emoji}
-              </div>
-              <div class="planet-card-body">
-                <span class="planet-card-rank">#{planet.rank}</span>
-                <h3>{planet.name}</h3>
-                <p>{planet.meaning}</p>
-              </div>
-            </article>
-          ))
-        }
-      </div>
+    <h2 class="section-title">Explore All Snapchat Planets</h2>
+    <p class="section-lead">
+      Tap any planet card to read the full guide for that rank in the Best Friends Solar System.
+    </p>
+    <div class="planet-grid">
+      {
+        planets.map((planet) => (
+          <article
+            class="planet-card"
+            style={`--planet-color: ${planet.color}`}
+          >
+            <span class="planet-card-emoji">{planet.emoji}</span>
+            <h3 class="planet-card-name">{planet.name}</h3>
+            <span class="planet-card-badge">Rank #{planet.rank}</span>
+            <p class="planet-card-meaning">{planet.shortMeaning}</p>
+            <a
+              href={`/snapchat-planets/${planet.slug}`}
+              class="btn btn-primary btn-sm"
+            >
+              Learn More
+            </a>
+          </article>
+        ))
+      }
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="section cta-section">
-    <div class="cta-card">
-      <h2>Ready to Decode Your Solar System?</h2>
-      <p>
-        Learn what each emoji, symbol, and planet position means — and never
-        wonder about your Snapchat best friend rank again.
-      </p>
-      <a href="#planet-finder" class="btn btn-primary">Use the Planet Finder</a>
+  <!-- LATEST BLOGS -->
+  <section class="section">
+    <h2 class="section-title">Latest Blogs</h2>
+    <p class="section-lead">
+      Stay updated with guides, tips, and news about Snapchat Planets and friendship features.
+    </p>
+    <div class="blog-grid">
+      {
+        blogPosts.map((post) => (
+          <article class="blog-card">
+            <time class="blog-date" datetime={post.date}>{post.date}</time>
+            <h3 class="blog-title">{post.title}</h3>
+            <p class="blog-excerpt">{post.excerpt}</p>
+            <a href="/latest-blogs" class="blog-link">
+              Read More →
+            </a>
+          </article>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>
 
 <style>
   .hero {
-    position: relative;
-    padding: 3rem 1.25rem 4rem;
-    overflow: hidden;
-    display: grid;
-    gap: 2.5rem;
-    align-items: center;
-    max-width: 72rem;
-    margin: 0 auto;
-  }
-
-  .hero-glow {
-    position: absolute;
-    top: -4rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30rem;
-    height: 30rem;
-    background: radial-gradient(circle, rgba(255, 252, 0, 0.08) 0%, transparent 65%);
-    pointer-events: none;
-  }
-
-  .hero-orbit-ring {
-    position: absolute;
-    top: 50%;
-    right: -5rem;
-    width: 20rem;
-    height: 20rem;
-    border: 1px solid rgba(255, 252, 0, 0.06);
-    border-radius: 50%;
-    pointer-events: none;
-    display: none;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 1;
+    padding: 4rem 1.25rem 2rem;
     text-align: center;
   }
 
-  .hero-badge {
-    display: inline-block;
-    background: rgba(255, 252, 0, 0.1);
-    border: 1px solid rgba(255, 252, 0, 0.25);
-    color: var(--snap-yellow);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 0.375rem 1rem;
-    border-radius: 999px;
-    margin-bottom: 1.25rem;
+  .hero-inner {
+    max-width: 48rem;
+    margin: 0 auto;
   }
 
   .hero h1 {
     font-size: clamp(1.75rem, 5vw, 2.75rem);
-    font-weight: 800;
-    line-height: 1.15;
+    font-weight: 700;
     margin: 0 0 1.25rem;
-    background: linear-gradient(135deg, #fff 30%, var(--snap-yellow) 100%);
+    background: linear-gradient(135deg, var(--text-primary) 20%, var(--snap-yellow) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .hero-lead {
+  .hero-sub {
     font-size: 1.0625rem;
     color: var(--text-muted);
     line-height: 1.7;
-    max-width: 36rem;
     margin: 0 auto 2rem;
+    max-width: 36rem;
   }
 
-  .hero-lead strong {
-    color: var(--snap-yellow);
-    font-weight: 600;
-  }
-
-  .hero-actions {
+  .planet-strip {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: center;
     gap: 0.75rem;
-    justify-content: center;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
   }
 
-  /* Solar system animation */
-  .hero-visual {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 0;
+  .strip-planet {
+    font-size: 1.75rem;
+    animation: pulse-glow 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px var(--glow));
   }
 
-  .solar-system {
-    position: relative;
-    width: 16rem;
-    height: 16rem;
+  .strip-planet:nth-child(2) { animation-delay: 0.3s; }
+  .strip-planet:nth-child(3) { animation-delay: 0.6s; }
+  .strip-planet:nth-child(4) { animation-delay: 0.9s; }
+  .strip-planet:nth-child(5) { animation-delay: 1.2s; }
+  .strip-planet:nth-child(6) { animation-delay: 1.5s; }
+  .strip-planet:nth-child(7) { animation-delay: 1.8s; }
+  .strip-planet:nth-child(8) { animation-delay: 2.1s; }
+
+  @keyframes pulse-glow {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
   }
 
-  .sun {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 2.5rem;
-    height: 2.5rem;
-    background: radial-gradient(circle at 40% 40%, #fff9a0, var(--snap-yellow));
-    border-radius: 50%;
-    box-shadow:
-      0 0 20px rgba(255, 252, 0, 0.6),
-      0 0 60px rgba(255, 252, 0, 0.3);
-    z-index: 2;
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
   }
 
-  .orbit {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: var(--orbit-size);
-    height: var(--orbit-size);
-    margin-top: calc(var(--orbit-size) / -2);
-    margin-left: calc(var(--orbit-size) / -2);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 50%;
-    animation: spin var(--duration) linear infinite;
-    animation-delay: var(--delay);
+  .planet-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 
-  .mini-planet {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0.5rem;
-    height: 0.5rem;
-    background: var(--planet-color);
-    border-radius: 50%;
-    box-shadow: 0 0 6px color-mix(in srgb, var(--planet-color) 60%, transparent);
+  .planet-card {
+    background: var(--bg-surface);
+    border: 2px solid var(--planet-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: box-shadow 0.3s, transform 0.3s;
   }
 
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  .planet-card:hover {
+    box-shadow: 0 0 24px color-mix(in srgb, var(--planet-color) 40%, transparent);
+    transform: translateY(-4px);
   }
 
-  /* Sections */
-  .section {
-    padding: 1rem 1.25rem 3rem;
-    max-width: 72rem;
-    margin: 0 auto;
+  .planet-card-emoji {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
   }
 
-  .section-inner {
+  .planet-card-name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: var(--text-primary);
+  }
+
+  .planet-card-badge {
+    display: inline-block;
+    background: var(--snap-yellow);
+    color: #000;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    padding: 0.2rem 0.625rem;
+    border-radius: 999px;
+    margin-bottom: 0.5rem;
+  }
+
+  .planet-card-meaning {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin: 0 0 1rem;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
     max-width: 56rem;
     margin: 0 auto;
   }
 
-  .section-title {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    font-weight: 700;
-    text-align: center;
-    margin: 0 0 0.75rem;
-    color: #fff;
-  }
-
-  .section-lead {
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 1rem;
-    line-height: 1.7;
-    max-width: 40rem;
-    margin: 0 auto 2.5rem;
-  }
-
-  /* Planet grid */
-  .planet-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-
-  .planet-card {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+  .blog-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
     border-radius: 1rem;
-    transition: border-color 0.2s, transform 0.2s;
+    padding: 1.5rem;
   }
 
-  .planet-card:hover {
-    border-color: rgba(255, 252, 0, 0.2);
-    transform: translateX(4px);
-  }
-
-  .planet-card-icon {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle at 35% 35%,
-      color-mix(in srgb, var(--planet-color) 70%, white),
-      var(--planet-color)
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.125rem;
-    flex-shrink: 0;
-    box-shadow: 0 0 12px color-mix(in srgb, var(--planet-color) 40%, transparent);
-  }
-
-  .planet-card-body {
-    min-width: 0;
-  }
-
-  .planet-card-rank {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    color: var(--snap-yellow);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .planet-card h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 0.125rem 0;
-    color: #fff;
-  }
-
-  .planet-card p {
-    font-size: 0.8125rem;
+  .blog-date {
+    font-size: 0.75rem;
     color: var(--text-muted);
-    margin: 0;
   }
 
-  /* CTA */
-  .cta-section {
-    padding-bottom: 4rem;
-  }
-
-  .cta-card {
-    text-align: center;
-    padding: 2.5rem 1.5rem;
-    background: linear-gradient(135deg, rgba(255, 252, 0, 0.06) 0%, rgba(255, 252, 0, 0.02) 100%);
-    border: 1px solid rgba(255, 252, 0, 0.15);
-    border-radius: 1.25rem;
-    max-width: 40rem;
-    margin: 0 auto;
-  }
-
-  .cta-card h2 {
-    font-size: 1.375rem;
+  .blog-title {
+    font-size: 1.0625rem;
     font-weight: 700;
-    margin: 0 0 0.75rem;
-    color: #fff;
+    color: var(--text-primary);
+    margin: 0.5rem 0;
   }
 
-  .cta-card p {
+  .blog-excerpt {
+    font-size: 0.875rem;
     color: var(--text-muted);
-    font-size: 0.9375rem;
     line-height: 1.6;
-    margin: 0 0 1.5rem;
+    margin: 0 0 1rem;
   }
 
-  @media (min-width: 640px) {
-    .planet-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .blog-link {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .blog-link:hover {
+    text-decoration: underline;
   }
 
   @media (min-width: 768px) {
-    .hero {
-      grid-template-columns: 1fr 1fr;
-      padding: 4rem 2rem 5rem;
-      text-align: left;
-    }
-
-    .hero-content {
-      text-align: left;
-    }
-
-    .hero-lead {
-      margin-left: 0;
-    }
-
-    .hero-actions {
-      justify-content: flex-start;
-    }
-
-    .hero-orbit-ring {
-      display: block;
-    }
-
-    .solar-system {
-      width: 20rem;
-      height: 20rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
     .planet-grid {
       grid-template-columns: repeat(4, 1fr);
+    }
+
+    .blog-grid {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 </style>

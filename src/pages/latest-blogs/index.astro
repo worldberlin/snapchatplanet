@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { blogPosts } from "../../data/blogs";
+---
+
+<BaseLayout
+  title="Latest Blogs — Snapchat Planets Guides & Tips"
+  description="Read the latest blog posts about Snapchat Planets, Best Friends Solar System tips, Snapchat Plus features, and friendship emoji guides."
+  canonicalPath="/latest-blogs"
+>
+  <section class="section">
+    <Breadcrumb
+      items={[
+        { label: "Home", href: "/" },
+        { label: "Latest Blogs" },
+      ]}
+    />
+
+    <h1>Latest Blogs</h1>
+    <p class="page-lead">
+      Guides, tips, and insights about <a href="/snapchat-planets">Snapchat Planets</a> and the
+      Best Friends Solar System. Return to the <a href="/">Snapchat Planets homepage</a> for our
+      interactive planet finder.
+    </p>
+
+    <div class="blog-list">
+      {
+        blogPosts.map((post) => (
+          <article class="blog-card">
+            <time class="blog-date" datetime={post.date}>{post.date}</time>
+            <h2 class="blog-title">{post.title}</h2>
+            <p class="blog-excerpt">{post.excerpt}</p>
+            <a href="/latest-blogs" class="btn btn-primary btn-sm">
+              Read More →
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+  }
+
+  .page-lead {
+    color: var(--text-muted);
+    max-width: 40rem;
+    margin: 0 0 2rem;
+    line-height: 1.7;
+  }
+
+  .blog-list {
+    display: grid;
+    gap: 1rem;
+    max-width: 48rem;
+  }
+
+  .blog-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  .blog-date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .blog-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    color: var(--text-primary);
+  }
+
+  .blog-excerpt {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0 0 1.25rem;
+  }
+</style>
