@@ -1,0 +1,306 @@
+---
+import { planets } from "../data/planets";
+---
+
+<section class="finder" id="planet-finder" aria-labelledby="finder-heading">
+  <div class="finder-glow" aria-hidden="true"></div>
+  <div class="finder-inner">
+    <h2 id="finder-heading" class="finder-title">
+      <span class="finder-icon">🔭</span>
+      Interactive Planet Finder
+    </h2>
+    <p class="finder-subtitle">
+      Select a planet to discover its rank and what it means in your Snapchat solar system.
+    </p>
+
+    <div class="finder-controls">
+      <label for="planet-select" class="finder-label">Choose a Planet</label>
+      <div class="select-wrapper">
+        <select id="planet-select" class="planet-select" aria-describedby="planet-result">
+          {
+            planets.map((planet) => (
+              <option value={planet.id}>
+                {planet.emoji} {planet.name} — Rank #{planet.rank}
+              </option>
+            ))
+          }
+        </select>
+        <span class="select-arrow" aria-hidden="true">▼</span>
+      </div>
+    </div>
+
+    <div class="planet-result" id="planet-result" role="region" aria-live="polite">
+      {
+        planets.map((planet, i) => (
+          <div
+            class="result-card"
+            data-planet={planet.id}
+            hidden={i !== 0}
+          >
+            <div class="result-orbit" aria-hidden="true">
+              <div
+                class="result-planet"
+                style={`--planet-color: ${planet.color}`}
+              >
+                <span class="planet-emoji">{planet.emoji}</span>
+              </div>
+            </div>
+            <div class="result-info">
+              <div class="result-rank">
+                <span class="rank-badge">Rank #{planet.rank}</span>
+                <span class="rank-planet-name">{planet.name}</span>
+              </div>
+              <h3 class="result-meaning">{planet.meaning}</h3>
+              <p class="result-description">{planet.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const select = document.getElementById("planet-select") as HTMLSelectElement;
+  const cards = document.querySelectorAll<HTMLElement>(".result-card");
+
+  select?.addEventListener("change", () => {
+    const selected = select.value;
+    cards.forEach((card) => {
+      card.hidden = card.dataset.planet !== selected;
+    });
+  });
+</script>
+
+<style>
+  .finder {
+    position: relative;
+    padding: 2rem 0;
+  }
+
+  .finder-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(100%, 36rem);
+    height: 20rem;
+    background: radial-gradient(ellipse, rgba(255, 252, 0, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .finder-inner {
+    position: relative;
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 252, 0, 0.15);
+    border-radius: 1.25rem;
+    backdrop-filter: blur(8px);
+    box-shadow:
+      0 0 40px rgba(255, 252, 0, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .finder-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 0.5rem;
+    text-align: center;
+  }
+
+  .finder-icon {
+    font-size: 1.5rem;
+  }
+
+  .finder-subtitle {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    margin: 0 0 1.75rem;
+  }
+
+  .finder-controls {
+    margin-bottom: 1.75rem;
+  }
+
+  .finder-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--snap-yellow);
+    margin-bottom: 0.5rem;
+  }
+
+  .select-wrapper {
+    position: relative;
+  }
+
+  .planet-select {
+    width: 100%;
+    appearance: none;
+    background: rgba(10, 14, 26, 0.8);
+    border: 1px solid rgba(255, 252, 0, 0.3);
+    border-radius: 0.75rem;
+    padding: 0.875rem 2.5rem 0.875rem 1rem;
+    color: #fff;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .planet-select:hover,
+  .planet-select:focus {
+    outline: none;
+    border-color: var(--snap-yellow);
+    box-shadow: 0 0 0 3px rgba(255, 252, 0, 0.15);
+  }
+
+  .select-arrow {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--snap-yellow);
+    font-size: 0.625rem;
+    pointer-events: none;
+  }
+
+  .result-card {
+    display: grid;
+    gap: 1.5rem;
+    animation: fadeIn 0.35s ease;
+  }
+
+  .result-card[hidden] {
+    display: none;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .result-orbit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .result-planet {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 35% 35%,
+      color-mix(in srgb, var(--planet-color) 80%, white),
+      var(--planet-color)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 0 30px color-mix(in srgb, var(--planet-color) 50%, transparent),
+      inset -8px -8px 20px rgba(0, 0, 0, 0.3);
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  .planet-emoji {
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+  }
+
+  .result-info {
+    text-align: center;
+  }
+
+  .result-rank {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .rank-badge {
+    background: var(--snap-yellow);
+    color: #0a0e1a;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+  }
+
+  .rank-planet-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .result-meaning {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 0.75rem;
+  }
+
+  .result-description {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  @media (min-width: 640px) {
+    .finder-inner {
+      padding: 2.5rem 2rem;
+    }
+
+    .result-card {
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      text-align: left;
+    }
+
+    .result-info {
+      text-align: left;
+    }
+
+    .result-rank {
+      justify-content: flex-start;
+    }
+
+    .result-orbit {
+      padding: 0;
+    }
+  }
+</style>

@@ -1,0 +1,142 @@
+---
+const year = new Date().getFullYear();
+
+const footerLinks = [
+  { label: "Snapchat Planets", href: "/snapchat-planets" },
+  { label: "Emojis & Symbols", href: "/emojis-and-symbols" },
+  { label: "Blog", href: "/blog" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
+---
+
+<footer class="footer">
+  <div class="stars-layer stars-layer--footer" aria-hidden="true"></div>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo">
+        <span>🪐</span> Snapchat<span class="accent">Planets</span>
+      </a>
+      <p class="footer-tagline">
+        Your complete guide to Snapchat's Best Friends solar system — ranks, meanings, and emojis explained.
+      </p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <ul>
+        {
+          footerLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; {year} SnapchatPlanets. All rights reserved.</p>
+    <p class="disclaimer">Not affiliated with Snap Inc.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    margin-top: auto;
+    background: linear-gradient(180deg, transparent 0%, rgba(5, 8, 18, 0.95) 30%);
+    border-top: 1px solid rgba(255, 252, 0, 0.08);
+    padding: 3rem 1.25rem 1.5rem;
+    overflow: hidden;
+  }
+
+  .stars-layer--footer {
+    opacity: 0.4;
+  }
+
+  .footer-inner {
+    max-width: 72rem;
+    margin: 0 auto 2rem;
+    display: grid;
+    gap: 2rem;
+  }
+
+  .footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+  }
+
+  .accent {
+    color: var(--snap-yellow);
+  }
+
+  .footer-tagline {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    max-width: 28rem;
+    margin: 0;
+  }
+
+  .footer-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+
+  .footer-nav a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+  }
+
+  .footer-nav a:hover {
+    color: var(--snap-yellow);
+  }
+
+  .footer-bottom {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+
+  .footer-bottom p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .disclaimer {
+    font-size: 0.6875rem !important;
+    color: rgba(255, 255, 255, 0.25) !important;
+  }
+
+  @media (min-width: 768px) {
+    .footer-inner {
+      grid-template-columns: 2fr 1fr;
+      align-items: start;
+    }
+
+    .footer-bottom {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+</style>
