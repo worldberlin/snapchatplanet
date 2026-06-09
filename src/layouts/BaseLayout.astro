@@ -3,16 +3,13 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_URL } from "../data/site";
 import "../styles/global.css";
-
 interface Props {
   title: string;
   description: string;
   canonicalPath?: string;
 }
-
 const { title, description, canonicalPath } = Astro.props;
 const canonicalURL = new URL(canonicalPath ?? Astro.url.pathname, SITE_URL).href;
-
 const starCount = 60;
 const stars = Array.from({ length: starCount }, (_, i) => ({
   left: `${(i * 17 + 7) % 100}%`,
@@ -22,7 +19,6 @@ const stars = Array.from({ length: starCount }, (_, i) => ({
   delay: `${-(i % 20)}s`,
 }));
 ---
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -44,6 +40,18 @@ const stars = Array.from({ length: starCount }, (_, i) => ({
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="aHnHpSeqmR97AYFo1LfxaDXMaslPXjMtyUOdpwSj5Dg" />
+
+    <!-- Google Analytics GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
   </head>
   <body>
     <div class="stars-layer" aria-hidden="true">
